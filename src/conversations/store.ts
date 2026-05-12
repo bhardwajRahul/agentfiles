@@ -51,14 +51,18 @@ export class ConversationStore extends Events {
 		let result = this.items;
 
 		switch (this._filter.kind) {
-			case "conversation-project":
-				result = result.filter((c) => c.project === this._filter.project);
+			case "conversation-project": {
+				const project = this._filter.project;
+				result = result.filter((c) => c.project === project);
 				break;
-			case "conversation-tag":
+			}
+			case "conversation-tag": {
+				const tag = this._filter.tag;
 				result = result.filter(
-					(c) => c.tags.includes(this._filter.tag) || c.customTags.includes(this._filter.tag)
+					(c) => c.tags.includes(tag) || c.customTags.includes(tag)
 				);
 				break;
+			}
 			case "conversation-favorites":
 				result = result.filter((c) => c.isFavorite);
 				break;
@@ -133,7 +137,7 @@ export class ConversationStore extends Events {
 	private loadTagData(): void {
 		try {
 			if (existsSync(TAG_FILE)) {
-				this.tagData = JSON.parse(readFileSync(TAG_FILE, "utf-8"));
+				this.tagData = JSON.parse(readFileSync(TAG_FILE, "utf-8")) as ConversationTagData;
 			}
 		} catch {
 			this.tagData = { ...DEFAULT_CONVERSATION_TAG_DATA };

@@ -1,7 +1,7 @@
 import { Component, MarkdownRenderer, Notice, setIcon, type App } from "obsidian";
 import type { EditorView } from "@codemirror/view";
 import { writeFileSync } from "fs";
-import { shell } from "electron";
+import { showItemInFolder } from "../utils/shell";
 import type { SkillItem, ChopsSettings } from "../types";
 import type { SkillStore } from "../store";
 import { TOOL_CONFIGS } from "../tool-configs";
@@ -140,7 +140,7 @@ export class DetailPanel {
 		});
 		setIcon(openBtn, "folder-open");
 		openBtn.addEventListener("click", () => {
-			shell.showItemInFolder(item.filePath);
+			showItemInFolder(item.filePath);
 		});
 
 		if (isSkillkitAvailable()) {

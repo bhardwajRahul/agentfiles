@@ -20,16 +20,27 @@ export interface MarketplaceSkill {
 	installed?: boolean;
 }
 
+interface SearchApiResponse {
+	skills?: {
+		id: string;
+		skillId: string;
+		name: string;
+		installs: number;
+		source: string;
+		description?: string;
+	}[];
+}
+
 export async function searchSkills(query: string): Promise<MarketplaceSkill[]> {
 	if (query.length < 2) return [];
 	try {
 		const res = await requestUrl({
 			url: `${API_BASE}/search?q=${encodeURIComponent(query)}&limit=30`,
 		});
-		const data = res.json;
+		const data = res.json as SearchApiResponse;
 		if (!data.skills) return [];
 		const installed = getInstalledNames();
-		return data.skills.map((s: { id: string; skillId: string; name: string; installs: number; source: string }) => ({
+		return data.skills.map((s) => ({
 			...s,
 			installed: installed.has(s.name),
 		}));
@@ -40,17 +51,27 @@ export async function searchSkills(query: string): Promise<MarketplaceSkill[]> {
 
 const treeCache = new Map<string, { branch: string; files: string[] }>();
 
+interface GitHubRepoResponse {
+	default_branch?: string;
+}
+
+interface GitHubTreeResponse {
+	tree?: { path: string }[];
+}
+
 async function getRepoTree(source: string): Promise<{ branch: string; files: string[] }> {
 	const cached = treeCache.get(source);
 	if (cached) return cached;
 
 	const repoRes = await requestUrl({ url: `https://api.github.com/repos/${source}` });
-	const branch = repoRes.json.default_branch || "main";
+	const repoJson = repoRes.json as GitHubRepoResponse;
+	const branch = repoJson.default_branch || "main";
 
 	const treeRes = await requestUrl({
 		url: `https://api.github.com/repos/${source}/git/trees/${branch}?recursive=1`,
 	});
-	const files = (treeRes.json.tree as { path: string }[])
+	const treeJson = treeRes.json as GitHubTreeResponse;
+	const files = (treeJson.tree ?? [])
 		.filter((t) => t.path.endsWith("/SKILL.md"))
 		.map((t) => t.path);
 
@@ -238,11 +259,15 @@ export function installSkill(
 	}
 }
 
+interface SkillLockFile {
+	skills?: Record<string, unknown>;
+}
+
 function getInstalledNames(): Set<string> {
 	const names = new Set<string>();
 	if (!existsSync(LOCK_PATH)) return names;
 	try {
-		const data = JSON.parse(readFileSync(LOCK_PATH, "utf-8"));
+		const data = JSON.parse(readFileSync(LOCK_PATH, "utf-8")) as SkillLockFile;
 		if (data.skills) {
 			for (const name of Object.keys(data.skills)) {
 				names.add(name);
@@ -279,7 +304,7 @@ function cleanLockFile(skillName: string): void {
 	const lockPath = join(HOME, ".agents", ".skill-lock.json");
 	if (!existsSync(lockPath)) return;
 	try {
-		const data = JSON.parse(readFileSync(lockPath, "utf-8"));
+		const data = JSON.parse(readFileSync(lockPath, "utf-8")) as SkillLockFile;
 		if (data.skills && data.skills[skillName]) {
 			delete data.skills[skillName];
 			writeFileSync(lockPath, JSON.stringify(data, null, 2) + "\n", "utf-8");

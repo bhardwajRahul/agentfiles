@@ -23,6 +23,10 @@ export default defineConfig([
 				process: "readonly",
 				Buffer: "readonly",
 				createEl: "readonly",
+				createSvg: "readonly",
+				activeWindow: "readonly",
+				activeDocument: "readonly",
+				window: "readonly",
 			},
 		},
 		rules: {

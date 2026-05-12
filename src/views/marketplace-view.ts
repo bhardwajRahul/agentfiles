@@ -37,7 +37,7 @@ export class MarketplacePanel {
 	private inputEl: HTMLInputElement | null = null;
 	private listEl: HTMLElement | null = null;
 	private previewEl: HTMLElement | null = null;
-	private searchTimer: ReturnType<typeof setTimeout> | null = null;
+	private searchTimer: number | null = null;
 	private selectedSkill: MarketplaceSkill | null = null;
 	private app: App;
 	private settings: ChopsSettings;
@@ -62,8 +62,8 @@ export class MarketplacePanel {
 				cls: "as-mp-search-input",
 			});
 			this.inputEl.addEventListener("input", () => {
-				if (this.searchTimer) clearTimeout(this.searchTimer);
-				this.searchTimer = setTimeout(() => {
+				if (this.searchTimer) activeWindow.clearTimeout(this.searchTimer);
+				this.searchTimer = activeWindow.setTimeout(() => {
 					void this.doSearch(this.inputEl!.value);
 				}, 300);
 			});

@@ -73,7 +73,7 @@ export function renderToolIcon(
 	const svgData = TOOL_SVGS[toolId];
 	if (!svgData) return;
 
-	const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	const svg = createSvg("svg");
 	svg.setAttribute("viewBox", svgData.viewBox);
 	svg.setAttribute("width", String(size));
 	svg.setAttribute("height", String(size));

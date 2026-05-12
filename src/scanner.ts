@@ -34,9 +34,9 @@ function parseFrontmatter(raw: string): {
 		return { frontmatter: {}, content: raw };
 	}
 	try {
-		const parsed = parseYaml(match[1]);
+		const parsed: unknown = parseYaml(match[1]);
 		return {
-			frontmatter: typeof parsed === "object" && parsed ? parsed : {},
+			frontmatter: typeof parsed === "object" && parsed ? (parsed as Record<string, unknown>) : {},
 			content: match[2],
 		};
 	} catch { /* empty */
@@ -165,7 +165,7 @@ function parseSkillFile(
 	filePath: string,
 	type: SkillType,
 	toolId: string,
-	pattern: ScanPattern = "directory-with-skillmd",
+	_pattern: ScanPattern = "directory-with-skillmd",
 	namingMode: NamingMode = "auto"
 ): SkillItem | null {
 	try {

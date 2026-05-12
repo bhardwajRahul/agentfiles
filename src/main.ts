@@ -37,10 +37,10 @@ export default class AgentfilesPlugin extends Plugin {
 		this.store.setDeepSearch(this.settings.deepSearchDefault ?? false);
 		this.store.setDeepSearchScope(this.settings.deepSearchScope ?? "both");
 
-		setTimeout(() => {
+		this.app.workspace.onLayoutReady(() => {
 			this.refreshStore();
 			this.startWatcher();
-		}, 0);
+		});
 	}
 
 	private addVaultPath(): void {
@@ -92,7 +92,8 @@ export default class AgentfilesPlugin extends Plugin {
 	}
 
 	async loadSettings(): Promise<void> {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		const data = (await this.loadData()) as Partial<ChopsSettings> | null;
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, data);
 	}
 
 	async saveSettings(): Promise<void> {

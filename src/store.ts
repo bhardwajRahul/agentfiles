@@ -18,7 +18,7 @@ interface EnrichmentData {
 function loadEnrichmentCache(): EnrichmentData | null {
 	if (!existsSync(ENRICH_CACHE)) return null;
 	try {
-		return JSON.parse(readFileSync(ENRICH_CACHE, "utf-8"));
+		return JSON.parse(readFileSync(ENRICH_CACHE, "utf-8")) as EnrichmentData;
 	} catch { return null; }
 }
 
@@ -59,24 +59,28 @@ export class SkillStore extends Events {
 			case "favorites":
 				result = result.filter((i) => i.isFavorite);
 				break;
-			case "tool":
-				result = result.filter((i) =>
-					i.tools.includes(this._filter.toolId)
-				);
+			case "tool": {
+				const toolId = this._filter.toolId;
+				result = result.filter((i) => i.tools.includes(toolId));
 				break;
-			case "type":
-				result = result.filter((i) => i.type === this._filter.type);
+			}
+			case "type": {
+				const type = this._filter.type;
+				result = result.filter((i) => i.type === type);
 				break;
-			case "collection":
-				result = result.filter((i) =>
-					i.collections.includes(this._filter.name)
-				);
+			}
+			case "collection": {
+				const name = this._filter.name;
+				result = result.filter((i) => i.collections.includes(name));
 				break;
-			case "project":
+			}
+			case "project": {
+				const project = this._filter.project;
 				result = result.filter(
-					(i) => getProjectName(i.filePath, this._projectsHomeDir) === this._filter.project
+					(i) => getProjectName(i.filePath, this._projectsHomeDir) === project
 				);
 				break;
+			}
 		}
 
 		if (this._searchQuery) {

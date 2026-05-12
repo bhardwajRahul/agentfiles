@@ -46,7 +46,7 @@ export function createSkillEditor(config: SkillEditorConfig): EditorView {
 		bracketMatching(),
 		closeBrackets(),
 		syntaxHighlighting(obsidianHighlightStyle),
-		EditorView.darkTheme.of(document.body.classList.contains("theme-dark")),
+		EditorView.darkTheme.of(activeDocument.body.classList.contains("theme-dark")),
 		frontmatterLinter,
 		frontmatterFoldService,
 		lintGutter(),

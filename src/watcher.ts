@@ -2,7 +2,7 @@ import { watch, type FSWatcher } from "fs";
 
 export class SkillWatcher {
 	private watchers: FSWatcher[] = [];
-	private debounceTimer: ReturnType<typeof setTimeout> | null = null;
+	private debounceTimer: number | null = null;
 	private debounceMs: number;
 	private onChange: () => void;
 
@@ -22,8 +22,8 @@ export class SkillWatcher {
 	}
 
 	private scheduleUpdate(): void {
-		if (this.debounceTimer) clearTimeout(this.debounceTimer);
-		this.debounceTimer = setTimeout(() => {
+		if (this.debounceTimer) activeWindow.clearTimeout(this.debounceTimer);
+		this.debounceTimer = activeWindow.setTimeout(() => {
 			this.debounceTimer = null;
 			this.onChange();
 		}, this.debounceMs);
@@ -31,7 +31,7 @@ export class SkillWatcher {
 
 	close(): void {
 		if (this.debounceTimer) {
-			clearTimeout(this.debounceTimer);
+			activeWindow.clearTimeout(this.debounceTimer);
 			this.debounceTimer = null;
 		}
 		for (const w of this.watchers) {

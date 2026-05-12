@@ -1,5 +1,5 @@
 import { Notice, setIcon, type App } from "obsidian";
-import { shell } from "electron";
+import { openExternal } from "../utils/shell";
 import { isSkillkitAvailable, runSkillkitJson, runSkillkitAction } from "../skillkit";
 import { updateAllSkillsAsync } from "../marketplace";
 import { showConfirmModal } from "./confirm-modal";
@@ -105,7 +105,7 @@ function loadDiskCache(): void {
 	if (cachedData) return;
 	if (!existsSync(CACHE_FILE)) return;
 	try {
-		const raw = JSON.parse(readFileSync(CACHE_FILE, "utf-8"));
+		const raw = JSON.parse(readFileSync(CACHE_FILE, "utf-8")) as { data: DashboardData; cachedAt: number };
 		cachedData = raw.data;
 		cachedAt = raw.cachedAt;
 	} catch { /* empty */ }
@@ -145,7 +145,7 @@ export class DashboardPanel {
 			loading.createDiv("as-dash-spinner");
 			loading.createDiv({ cls: "as-dash-loading-text", text: "Loading analytics..." });
 
-			setTimeout(() => {
+			activeWindow.setTimeout(() => {
 				const data = loadData();
 				cachedData = data;
 				cachedAt = Date.now();
@@ -205,7 +205,7 @@ export class DashboardPanel {
 		scanBtn.addEventListener("click", () => {
 			scanBtn.setText("Scanning...");
 			scanBtn.disabled = true;
-			setTimeout(() => {
+			activeWindow.setTimeout(() => {
 				const result = runSkillkitAction("scan");
 				if (result.success) {
 					new Notice("Scan complete", 5000);
@@ -226,7 +226,7 @@ export class DashboardPanel {
 				showConfirmModal(this.app, "Prune stale skills", `Remove ${data.health!.usage.unused_30d} unused skills? This cannot be undone.`, () => {
 					pruneBtn.setText("Pruning...");
 					pruneBtn.disabled = true;
-					setTimeout(() => {
+					activeWindow.setTimeout(() => {
 						const result = runSkillkitAction("prune --yes");
 						if (result.success) {
 							new Notice("Pruned stale skills", 5000);
@@ -259,7 +259,7 @@ export class DashboardPanel {
 		});
 		link.addEventListener("click", (e) => {
 			e.preventDefault();
-			void shell.openExternal("https://www.npmjs.com/package/@crafter/skillkit");
+			openExternal("https://www.npmjs.com/package/@crafter/skillkit");
 		});
 	}
 

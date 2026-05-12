@@ -69,8 +69,8 @@ function extractMessages(lines: string[]): {
 
 	for (const line of lines) {
 		try {
-			const entry = JSON.parse(line);
-			const ts = entry.timestamp as string | undefined;
+			const entry = JSON.parse(line) as Record<string, unknown>;
+			const ts = typeof entry.timestamp === "string" ? entry.timestamp : undefined;
 			if (ts) {
 				if (!firstTimestamp) firstTimestamp = ts;
 				lastTimestamp = ts;
@@ -200,8 +200,8 @@ async function parseFileAsync(meta: ConversationMeta): Promise<ConversationItem 
 			if (lineCount > MAX_LINES_PER_FILE) { rl.close(); return; }
 
 			try {
-				const entry = JSON.parse(line);
-				const ts = entry.timestamp as string | undefined;
+				const entry = JSON.parse(line) as Record<string, unknown>;
+				const ts = typeof entry.timestamp === "string" ? entry.timestamp : undefined;
 				if (ts) {
 					if (!firstTimestamp) firstTimestamp = ts;
 					lastTimestamp = ts;

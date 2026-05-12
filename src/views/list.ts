@@ -1,5 +1,5 @@
 import { Menu, setIcon } from "obsidian";
-import { shell } from "electron";
+import { showItemInFolder } from "../utils/shell";
 import { TOOL_CONFIGS } from "../tool-configs";
 import { TOOL_SVGS, renderToolIcon } from "../tool-icons";
 import type { SkillStore } from "../store";
@@ -82,8 +82,8 @@ export class ListPanel {
 							this.closeDropdown();
 						}
 					};
-					setTimeout(() => document.addEventListener("click", close), 0);
-					this.outsideClickCleanup = () => document.removeEventListener("click", close);
+					activeWindow.setTimeout(() => activeDocument.addEventListener("click", close), 0);
+					this.outsideClickCleanup = () => activeDocument.removeEventListener("click", close);
 				}
 			});
 
@@ -195,7 +195,7 @@ export class ListPanel {
 			const clearBtn = filterLabel.createSpan({ cls: "as-filter-clear", text: "Clear" });
 			clearBtn.addEventListener("click", () => {
 				this.typeFilter = null;
-				this.updateMenuBtn();
+				this.updateMenuBtnState();
 				this.renderList();
 			});
 		}
@@ -289,7 +289,7 @@ export class ListPanel {
 			menu.addItem((i) =>
 				i.setTitle("Reveal in system explorer")
 					.setIcon("folder-open")
-					.onClick(() => shell.showItemInFolder(item.filePath))
+					.onClick(() => showItemInFolder(item.filePath))
 			);
 			menu.addItem((i) =>
 				i.setTitle("Copy file path")

@@ -210,7 +210,7 @@ function parseJsonOutput(out: string): Record<string, unknown> | unknown[] | nul
 	const jsonStartArr = out.indexOf("[");
 	const start = jsonStart === -1 ? jsonStartArr : jsonStartArr === -1 ? jsonStart : Math.min(jsonStart, jsonStartArr);
 	if (start === -1) return null;
-	return JSON.parse(out.slice(start));
+	return JSON.parse(out.slice(start)) as Record<string, unknown> | unknown[];
 }
 
 export function runSkillkitJsonAsync(cmd: string): Promise<Record<string, unknown> | unknown[] | null> {

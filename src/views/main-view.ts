@@ -73,7 +73,7 @@ export class AgentfilesView extends ItemView {
 		return "cpu";
 	}
 
-	onOpen(): void {
+	async onOpen(): Promise<void> {
 		const container = this.contentEl;
 		container.empty();
 		container.addClass("as-container");
@@ -246,7 +246,7 @@ export class AgentfilesView extends ItemView {
 	private openCreateModal(): void {
 		new CreateSkillModal(this.app, (filePath: string) => {
 			this.store.refresh(this.settings);
-			setTimeout(() => {
+			activeWindow.setTimeout(() => {
 				const created = this.store.allItems.find((i) => i.filePath === filePath || i.realPath === filePath);
 				if (created) this.onSelectItem(created);
 			}, 100);
@@ -286,8 +286,8 @@ export class AgentfilesView extends ItemView {
 
 		const onMouseUp = () => {
 			handle.removeClass("is-dragging");
-			document.removeEventListener("mousemove", onMouseMove);
-			document.removeEventListener("mouseup", onMouseUp);
+			activeDocument.removeEventListener("mousemove", onMouseMove);
+			activeDocument.removeEventListener("mouseup", onMouseUp);
 			this.dragCleanup = null;
 		};
 
@@ -296,15 +296,15 @@ export class AgentfilesView extends ItemView {
 			startX = e.clientX;
 			startWidth = parseInt(container.style.getPropertyValue(cssVar)) || panel.offsetWidth;
 			handle.addClass("is-dragging");
-			document.addEventListener("mousemove", onMouseMove);
-			document.addEventListener("mouseup", onMouseUp);
+			activeDocument.addEventListener("mousemove", onMouseMove);
+			activeDocument.addEventListener("mouseup", onMouseUp);
 			this.dragCleanup = onMouseUp;
 		});
 
 		return handle;
 	}
 
-	onClose(): void {
+	async onClose(): Promise<void> {
 		this.dragCleanup?.();
 		if (this.updateRef) {
 			this.store.offref(this.updateRef);

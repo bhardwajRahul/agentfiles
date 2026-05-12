@@ -112,8 +112,8 @@ export class ConversationListPanel {
 				this.closeAllDropdowns();
 			}
 		};
-		setTimeout(() => document.addEventListener("click", close), 0);
-		this.outsideClickCleanup = () => document.removeEventListener("click", close);
+		activeWindow.setTimeout(() => activeDocument.addEventListener("click", close), 0);
+		this.outsideClickCleanup = () => activeDocument.removeEventListener("click", close);
 	}
 
 	private renderSearchActions(): void {

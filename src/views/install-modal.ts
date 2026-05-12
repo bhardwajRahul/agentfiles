@@ -17,11 +17,16 @@ const PREFS_FILE = join(homedir(), ".skillkit", "install-prefs.json");
 let lastSelectedAgents: Set<string> | null = null;
 let lastIsGlobal = true;
 
+interface InstallPrefs {
+	agents?: string[];
+	global?: boolean;
+}
+
 function loadPrefs(): void {
 	if (lastSelectedAgents) return;
 	if (!existsSync(PREFS_FILE)) return;
 	try {
-		const data = JSON.parse(readFileSync(PREFS_FILE, "utf-8"));
+		const data = JSON.parse(readFileSync(PREFS_FILE, "utf-8")) as InstallPrefs;
 		lastSelectedAgents = new Set(data.agents || []);
 		lastIsGlobal = data.global ?? true;
 	} catch { /* empty */ }
@@ -130,10 +135,10 @@ export class InstallSkillModal extends Modal {
 		const cancelBtn = footer.createEl("button", { text: "Cancel" });
 		cancelBtn.addEventListener("click", () => this.close());
 		const installBtn = footer.createEl("button", { cls: "mod-cta", text: "Install" });
-		installBtn.addEventListener("click", () => this.doInstall(installBtn));
+		installBtn.addEventListener("click", () => this.doInstall());
 	}
 
-	private doInstall(btnEl: HTMLButtonElement): void {
+	private doInstall(): void {
 		const agents = [...this.selectedAgents];
 		if (agents.length === 0) {
 			new Notice("Select at least one agent", 5000);

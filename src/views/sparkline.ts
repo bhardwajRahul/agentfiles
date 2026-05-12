@@ -13,13 +13,13 @@ export function renderSparkline(
 		return `${x.toFixed(1)},${y.toFixed(1)}`;
 	});
 
-	const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	const svg = createSvg("svg");
 	svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 	svg.setAttribute("width", String(width));
 	svg.setAttribute("height", String(height));
 	svg.classList.add("as-sparkline");
 
-	const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+	const polyline = createSvg("polyline");
 	polyline.setAttribute("points", points.join(" "));
 	polyline.setAttribute("fill", "none");
 	polyline.setAttribute("stroke", "currentColor");
