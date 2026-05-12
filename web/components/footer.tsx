@@ -21,7 +21,7 @@ export function Footer() {
 						Changelog
 					</Link>
 					<a
-						href="https://github.com/Railly/obsidian-agent-skills"
+						href="https://github.com/Railly/agentfiles"
 						target="_blank"
 						rel="noreferrer"
 						className="text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"

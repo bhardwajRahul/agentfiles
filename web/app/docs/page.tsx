@@ -148,7 +148,34 @@ function InstallationSection() {
 	return (
 		<DocSection id="installation" title="Installation">
 			<p className="text-[var(--foreground)]">
-				Agentfiles is available in the Obsidian Community Plugins directory.
+				Agentfiles is listed on the{" "}
+				<a
+					href="https://community.obsidian.md/plugins/agentfiles"
+					target="_blank"
+					rel="noreferrer"
+					className="text-violet-400 hover:text-violet-300 transition-colors"
+				>
+					Obsidian Community
+				</a>{" "}
+				directory.
+			</p>
+			<p className="font-semibold text-[var(--foreground)]">
+				One-click from the community page
+			</p>
+			<p>
+				Open{" "}
+				<a
+					href="https://community.obsidian.md/plugins/agentfiles"
+					target="_blank"
+					rel="noreferrer"
+					className="text-violet-400 hover:text-violet-300 transition-colors"
+				>
+					community.obsidian.md/plugins/agentfiles
+				</a>{" "}
+				and click <strong className="text-[var(--foreground)]">Add to Obsidian</strong>.
+			</p>
+			<p className="font-semibold text-[var(--foreground)]">
+				Inside Obsidian
 			</p>
 			<div className="space-y-3">
 				<div className="flex gap-3">
@@ -156,10 +183,12 @@ function InstallationSection() {
 						01
 					</span>
 					<p>
-						Open Obsidian and go to{" "}
+						Go to{" "}
 						<strong className="text-[var(--foreground)]">
 							Settings &rarr; Community plugins
-						</strong>
+						</strong>{" "}
+						and click{" "}
+						<strong className="text-[var(--foreground)]">Browse</strong>
 					</p>
 				</div>
 				<div className="flex gap-3">
@@ -167,23 +196,12 @@ function InstallationSection() {
 						02
 					</span>
 					<p>
-						Disable{" "}
-						<strong className="text-[var(--foreground)]">Safe mode</strong> if
-						prompted
+						Search for <Code>Agentfiles</Code>
 					</p>
 				</div>
 				<div className="flex gap-3">
 					<span className="font-mono text-xs text-violet-400 shrink-0 mt-0.5">
 						03
-					</span>
-					<p>
-						Click <strong className="text-[var(--foreground)]">Browse</strong>{" "}
-						and search for <Code>Agentfiles</Code>
-					</p>
-				</div>
-				<div className="flex gap-3">
-					<span className="font-mono text-xs text-violet-400 shrink-0 mt-0.5">
-						04
 					</span>
 					<p>
 						Click <strong className="text-[var(--foreground)]">Install</strong>{" "}
@@ -202,11 +220,11 @@ function InstallationSection() {
 			</p>
 			<p className="font-semibold text-[var(--foreground)]">Manual install</p>
 			<CodeBlock lang="bash">{`# Download latest release assets
-curl -L https://github.com/Railly/obsidian-agent-skills/releases/latest/download/main.js \\
+curl -L https://github.com/Railly/agentfiles/releases/latest/download/main.js \\
   -o ~/.obsidian/plugins/agentfiles/main.js
-curl -L https://github.com/Railly/obsidian-agent-skills/releases/latest/download/manifest.json \\
+curl -L https://github.com/Railly/agentfiles/releases/latest/download/manifest.json \\
   -o ~/.obsidian/plugins/agentfiles/manifest.json
-curl -L https://github.com/Railly/obsidian-agent-skills/releases/latest/download/styles.css \\
+curl -L https://github.com/Railly/agentfiles/releases/latest/download/styles.css \\
   -o ~/.obsidian/plugins/agentfiles/styles.css`}</CodeBlock>
 		</DocSection>
 	);

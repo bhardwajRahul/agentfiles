@@ -2,22 +2,32 @@
 
 AI skills manager for Obsidian. Browse, create, and manage skills across Claude Code, Cursor, Codex, Windsurf, and 10+ coding agents.
 
+**[Add to Obsidian →](https://community.obsidian.md/plugins/agentfiles)** · [Website](https://agentfiles.crafter.run) · [Latest release](https://github.com/Railly/agentfiles/releases/latest)
+
 ![Browse skills, commands, and agents across 13+ coding assistants](assets/browse.jpeg)
 
 ![Dashboard with burn rate, context tax, and health metrics](assets/dashboard.jpeg)
 
 ## Install
 
-### From Obsidian (coming soon)
+### From Obsidian Community
 
-Search **Agentfiles** in Settings > Community plugins.
+Open the plugin page: **[community.obsidian.md/plugins/agentfiles](https://community.obsidian.md/plugins/agentfiles)** and click **Add to Obsidian**.
+
+Or use the deep link directly:
+
+```
+obsidian://show-plugin?id=agentfiles
+```
+
+You can also search **Agentfiles** in Settings → Community plugins inside Obsidian.
 
 ### Manual
 
 1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/Railly/agentfiles/releases/latest)
 2. Create `<vault>/.obsidian/plugins/agentfiles/`
 3. Copy the three files into that folder
-4. Enable in Settings > Community plugins
+4. Enable in Settings → Community plugins
 
 ### Optional: skillkit analytics
 

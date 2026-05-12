@@ -3,9 +3,40 @@ import { Nav } from "@/components/nav";
 
 const releases = [
 	{
+		version: "0.7.3",
+		date: "2026-05-12",
+		tag: "latest",
+		changes: [
+			{
+				type: "feat",
+				text: "Now listed on the Obsidian Community directory — install with one click",
+			},
+			{
+				type: "fix",
+				text: "Bumped minAppVersion to 1.7.2 to match Workspace.revealLeaf",
+			},
+			{
+				type: "fix",
+				text: "Popout window compatibility (activeWindow / activeDocument across watcher, modals, editor)",
+			},
+			{
+				type: "fix",
+				text: "Typed every JSON.parse and GitHub / skills.sh API response",
+			},
+			{
+				type: "fix",
+				text: "Replaced document.createElementNS with createSvg in sparkline and tool icons",
+			},
+			{
+				type: "fix",
+				text: "Removed direct electron shell import — typed through utils/shell helper",
+			},
+		],
+	},
+	{
 		version: "0.7.0",
 		date: "2026-04-01",
-		tag: "latest",
+		tag: null,
 		changes: [
 			{
 				type: "feat",
@@ -214,7 +245,7 @@ export default function ChangelogPage() {
 						<p className="text-xs text-[var(--muted)]">
 							For the full history, see the{" "}
 							<a
-								href="https://github.com/Railly/obsidian-agent-skills/releases"
+								href="https://github.com/Railly/agentfiles/releases"
 								target="_blank"
 								rel="noreferrer"
 								className="text-violet-400 hover:text-violet-300 transition-colors"
